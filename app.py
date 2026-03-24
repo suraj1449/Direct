@@ -33,9 +33,10 @@ import time, threading
 from datetime import datetime, date, timedelta
 from flask import Flask, jsonify, render_template_string, request
 from kiteconnect import KiteConnect
+import os
 
-API_KEY      = "oxc7tfxwa3n5zvqq"
-ACCESS_TOKEN = "fVaypuTpr94yLv7INaXmgSKl4GuSHc1b"
+API_KEY = os.getenv("API_KEY")
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 
 STRIKE_GAP   = 50
 OTM_DEPTH    = 5        # 11 strikes total
@@ -2753,4 +2754,7 @@ if __name__ == "__main__":
     threading.Thread(target=ltp_loop, daemon=True, name="LTP-Thread").start()
 
     print("\n  ▶  Open browser →  http://localhost:5000\n")
-    app.run(host="0.0.0.0", port=5000, debug=False, threaded=True)
+    import os
+
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
